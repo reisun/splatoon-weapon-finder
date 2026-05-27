@@ -1,0 +1,10 @@
+# Copy to docker-compose.override.yml and adjust as needed.
+# docker-compose.override.yml is gitignored.
+services:
+  app:
+    # Example: join an external reverse-proxy network
+    # networks:
+    #   - proxy
+# networks:
+#   proxy:
+#     external: true
