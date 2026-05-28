@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { WeaponFilters } from "../types/weapon";
 import {
   weaponClasses,
@@ -11,6 +12,62 @@ interface FilterPanelProps {
   onUpdateFilter: (key: keyof WeaponFilters, value: string) => void;
   onReset: () => void;
   resultCount: number;
+}
+
+function TextFilter({
+  label,
+  value,
+  onChange,
+  placeholder,
+  testId,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  testId: string;
+}) {
+  const [localValue, setLocalValue] = useState(value);
+  const composingRef = useRef(false);
+
+  useEffect(() => {
+    if (!composingRef.current) {
+      setLocalValue(value);
+    }
+  }, [value]);
+
+  const commitValue = useCallback(
+    (v: string) => {
+      onChange(v);
+    },
+    [onChange],
+  );
+
+  return (
+    <div className="flex flex-col gap-1">
+      <label className="text-sm font-medium text-gray-700">{label}</label>
+      <input
+        data-testid={testId}
+        type="text"
+        value={localValue}
+        onChange={(e) => {
+          setLocalValue(e.target.value);
+          if (!composingRef.current) {
+            commitValue(e.target.value);
+          }
+        }}
+        onCompositionStart={() => {
+          composingRef.current = true;
+        }}
+        onCompositionEnd={(e) => {
+          composingRef.current = false;
+          commitValue(e.currentTarget.value);
+        }}
+        placeholder={placeholder}
+        className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+      />
+    </div>
+  );
 }
 
 function SelectFilter({
@@ -64,17 +121,13 @@ export function FilterPanel({
         </button>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">武器名</label>
-          <input
-            data-testid="filter-name"
-            type="text"
-            value={filters.name}
-            onChange={(e) => onUpdateFilter("name", e.target.value)}
-            placeholder="武器名で検索..."
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
+        <TextFilter
+          label="武器名"
+          value={filters.name}
+          onChange={(v) => onUpdateFilter("name", v)}
+          placeholder="武器名で検索..."
+          testId="filter-name"
+        />
         <SelectFilter
           label="武器種"
           value={filters.weaponClass}
