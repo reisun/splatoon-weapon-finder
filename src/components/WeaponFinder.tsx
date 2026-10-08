@@ -24,6 +24,10 @@ export function WeaponFinder() {
         resultCount={results.length}
       />
       <WeaponTable weapons={results} />
+      <p className="text-sm text-gray-500">
+        ブキ構成は Ver.11.3.0（2026年10月8日確認）。射程は攻撃方法で変わるため、
+        長い側の射程を基にした目安です。
+      </p>
     </div>
   );
 }

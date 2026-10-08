@@ -1,4 +1,9 @@
-import type { Range, WeaponClass } from "../types/weapon";
+import type {
+  Range,
+  SpecialWeapon,
+  SubWeapon,
+  WeaponClass,
+} from "../types/weapon";
 
 export const weaponClasses: WeaponClass[] = [
   "シューター",
@@ -14,7 +19,7 @@ export const weaponClasses: WeaponClass[] = [
   "ワイパー",
 ];
 
-export const subWeapons: string[] = [
+export const subWeapons: SubWeapon[] = [
   "スプラッシュボム",
   "キューバンボム",
   "クイックボム",
@@ -31,7 +36,7 @@ export const subWeapons: string[] = [
   "ポイズンミスト",
 ];
 
-export const specialWeapons: string[] = [
+export const specialWeapons: SpecialWeapon[] = [
   "ウルトラショット",
   "グレートバリア",
   "サメライド",
@@ -50,7 +55,7 @@ export const specialWeapons: string[] = [
   "スミナガシート",
   "デコイチラシ",
   "ウルトラチャクチ",
-  "スーパーチャクチ",
+  "ウルトラハンコ",
 ];
 
 export const ranges: Range[] = ["短", "中短", "中", "中長", "長"];
